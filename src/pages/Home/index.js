@@ -25,74 +25,43 @@ export default function Logon() {
     const response = await axios.get(`https://servicodados.ibge.gov.br/api/v2/censos/nomes/${name}
           `);
 
-    // console.log(response.data);
-
-    function getData(data) {
-      console.log(data.map(item => item.res)[0].map(a => a.periodo));
-
-      // data.map(item =>
-      //   item.res.map(function (item) {
-      //     const array = [
-      //       [item.periodo]
-      //         .map(p => p.replace(/[\[ ]+/g, ''))
-      //         .map(f => f.split(',')[1] || f.split(',')[0]),
-      //     ];
-      //   }),
-      // );  não ficou tão bom, separou os numeros em arrays
-
-      // console.log(
-      //   data.map(item =>
-      //     item.res.map(function (item) {
-      //       console.log(
-      //         `Ano: ${[item.periodo]
-      //           .map(p => p.replace(/[\[ ]+/g, ''))
-      //           .map(f => f.split(',')[1] || f.split(',')[0])}`,
-      //       );
-      //     }),
-      //   ),
-      // );
+    if (!name) {
+      console.log('nada foi digitado');
+      return;
     }
-
-    getData(response.data);
 
     if (response.data == '') {
       alert('Ops! Nenhum dado foi encontrado.');
       return;
     }
 
-    if (!name) {
-      console.log('nada foi digitado');
-      return;
-    }
-
-    const data = response.data.map(function (item) {
-      const objData = {
-        ano: item.res.map(p => p.periodo),
-        frequencia: item.res.map(f => f.frequencia),
+    function getData(data) {
+      const objAnoFrequencia = {
+        ano: data
+          .map(item => item.res)[0]
+          .map(a => a.periodo)
+          .map(b => b.replace(/[\[ ]+/g, ''))
+          .map(c => c.split(',')[1] || c.split(',')[0]),
+        frequencia: data.map(item => item.res)[0].map(a => a.frequencia),
       };
-      return objData;
-    });
-
-    extractData(data);
-  }
-
-  function extractData(data) {
-    const dataChart = [];
-
-    const counter = data.map(item => item.frequencia)[0].length;
-    const anos = data
-      .map(item => item.ano)[0]
-      .map(e => e.replace(/[\[ ]+/g, ''))
-      .map(f => f.split(',')[1] || f.split(',')[0]);
-    const frequencia = data.map(item => item.frequencia)[0];
-
-    dataChart.push(['Ano', 'Frequencia']);
-
-    for (let i = 0; i < counter; i++) {
-      dataChart.push([anos[i], frequencia[i]]);
+      return objAnoFrequencia;
     }
 
-    setListData(dataChart);
+    function createChart(data) {
+      const dataChart = [];
+
+      const counter = data.ano.length;
+
+      dataChart.push(['Ano', 'Frequencia']);
+
+      for (let i = 0; i < counter; i++) {
+        dataChart.push([data.ano[i], data.frequencia[i]]);
+      }
+
+      setListData(dataChart);
+    }
+
+    createChart(getData(response.data));
   }
 
   return (
@@ -109,7 +78,7 @@ export default function Logon() {
           <br></br>
           <input
             type='text'
-            placeholder='Your name'
+            placeholder='Digite seu nome'
             onChange={e => setName(e.target.value)}
           />
           <button onClick={fetchData}>Buscar</button>
@@ -120,12 +89,12 @@ export default function Logon() {
         <Chart
           width={'100%'}
           height={'100%'}
-          chartType='LineChart'
+          chartType='AreaChart'
           loader={<div>Loading Chart</div>}
           data={!name ? initial : listData}
           options={{
             hAxis: {
-              title: 'Anos',
+              title: 'Ano',
             },
             vAxis: {
               title: 'Frequência de nomes',
