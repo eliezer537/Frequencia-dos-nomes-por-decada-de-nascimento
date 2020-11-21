@@ -1,4 +1,4 @@
-<h1>A aplicação disponibiliza um gráfico com a frequência dos nomes por década de nascimento.</h1>
+<h1>A aplicação disponibiliza um gráfico com a frequência dos nomes por década de nascimento de acordo com o censo do IBGE.</h1>
 
 <h1>
   <img src='./assets/printApp.png' />
@@ -10,6 +10,6 @@
   <img src='./assets/printChart.png' />
 </h1>
 
-<h3>Para rodar a aplicação é necessário os seguintes comandos:</h3>
+<h3>Para executar a aplicação é necessário os seguintes comandos:</h3>
 <h4>yarn install</h4>
 <h4>yarn start</h4>
