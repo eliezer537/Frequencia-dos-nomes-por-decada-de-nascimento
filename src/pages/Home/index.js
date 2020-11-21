@@ -32,7 +32,7 @@ export default function Home() {
 			ano: getFirstItem(data)
 				.map(a => a.periodo)
 				.map(b => b.replace(/[[ ]+/g, ''))
-			.map(c => c.split(',')[1] || c.split(',')[0]),
+				.map(c => c.split(',')[1] || c.split(',')[0]),
 			frequencia: getFirstItem(data).map(a => a.frequencia),
 		};
 
@@ -89,13 +89,19 @@ export default function Home() {
 	return (
 		<div className='container'>
 			<header>
-				<h1>Buscador de nomes</h1>
+				<h1>Frequência dos nomes por década de nascimento</h1>
 			</header>
 
 			<nav>
 				<form className='form' onSubmit={fetchData}>
 					<label htmlFor=''>Busque por algum nome</label>
-					<input type='text' placeholder='Insira um nome' autoFocus onChange={handleGetInputText} required />
+					<input
+						type='text'
+						placeholder='Insira um nome'
+						autoFocus
+						onChange={handleGetInputText}
+						required
+					/>
 					<button type='submit'>Buscar</button>
 				</form>
 			</nav>
