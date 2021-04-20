@@ -11,5 +11,6 @@
 </h1>
 
 <h3>Para executar a aplicação é necessário os seguintes comandos:</h3>
-<h4>yarn install</h4>
-<h4>yarn start</h4>
+
+> yarn install
+> yarn start
